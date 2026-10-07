@@ -1,0 +1,707 @@
+<!-- ===========================================================
+
+        Crop Yield Prediction System
+
+        File Name : farmer_dashboard.html
+
+        Description:
+        This dashboard is displayed after successful login.
+        Farmers can view profile information, prediction history,
+        reports, crop prediction options and logout.
+
+        Technologies Used:
+        • HTML5
+        • CSS3
+        • Bootstrap 5
+        • JavaScript
+        • FastAPI REST API
+        • JWT Authentication
+
+        Developed By:
+        Pankaj
+
+=========================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Character Encoding -->
+    <meta charset="UTF-8">
+
+    <!-- Responsive Design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page Title -->
+    <title>Farmer Dashboard | Crop Yield Prediction</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* ==================================================
+                Global Theme Colors
+================================================== */
+
+:root{
+
+--primary:#22C55E;
+--secondary:#16A34A;
+--background:#020617;
+--sidebar:#0F172A;
+--card:#1E293B;
+--text:#F8FAFC;
+--gray:#94A3B8;
+
+}
+
+/* ==================================================
+                Reset Default Styles
+================================================== */
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+
+}
+
+/* ==================================================
+                Body Styling
+================================================== */
+
+body{
+
+background:var(--background);
+color:var(--text);
+
+}
+
+/* ==================================================
+                Sidebar
+================================================== */
+
+.sidebar{
+
+position:fixed;
+
+left:0;
+top:0;
+
+width:260px;
+height:100vh;
+
+background:var(--sidebar);
+
+padding:30px;
+
+}
+
+/* ==================================================
+                Main Content
+================================================== */
+
+.main{
+
+margin-left:260px;
+
+padding:40px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+    <!-- ==================================================
+                Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+
+    <!-- Project Logo -->
+    <h2 class="text-center mb-5">
+        🌾 Crop AI
+    </h2>
+
+    <!-- Navigation Menu -->
+    <ul class="nav flex-column">
+
+       <li class="nav-item mb-3">
+    <a href="farmer_dashboard.html" class="nav-link text-light">
+        <i class="bi bi-speedometer2"></i>
+        Dashboard
+    </a>
+</li>
+
+
+        <li class="nav-item mb-3">
+    <a href="#predictCrop" class="nav-link text-light">
+        <i class="bi bi-graph-up-arrow"></i>
+        Predict Crop
+    </a>
+</li>
+       <li class="nav-item mb-3">
+    <a href="prediction_history.html" class="nav-link text-light">
+        <i class="bi bi-clock-history"></i>
+        Prediction History
+    </a>
+</li>
+<li class="nav-item mb-3">
+    <a href="reports.html" class="nav-link text-light">
+        <i class="bi bi-file-earmark-text"></i>
+        Reports
+    </a>
+</li>
+
+       <li class="nav-item mb-3">
+    <a href="profile.html" class="nav-link text-light">
+        <i class="bi bi-person-circle"></i>
+        Profile
+    </a>
+</li>
+
+        <li class="nav-item mt-5">
+
+    <a href="#"
+       class="nav-link text-danger"
+       id="logoutBtn">
+
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+
+    </a>
+
+</li>
+
+    </ul>
+
+</div>
+
+<!-- ==================================================
+                Main Content
+================================================== -->
+
+<div class="main">
+    <!-- ==================================================
+                Dashboard Header
+================================================== -->
+
+<h2 class="mb-4">
+
+    Welcome Farmer 👋
+
+</h2>
+
+<p class="text-secondary mb-5">
+
+    Welcome to the Crop Yield Prediction System Dashboard.
+
+</p>
+
+<!-- ==================================================
+                Dashboard Statistics Cards
+================================================== -->
+
+<div class="row">
+
+    <!-- Total Predictions -->
+    <div class="col-md-3 mb-4">
+
+        <div class="card p-4">
+
+            <h5>Total Predictions</h5>
+
+            <h2 class="text-success">125</h2>
+
+        </div>
+
+    </div>
+
+    <!-- Reports -->
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card p-4">
+
+            <h5>Reports</h5>
+
+            <h2 class="text-info">35</h2>
+
+        </div>
+
+    </div>
+
+    <!-- Accuracy -->
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card p-4">
+
+            <h5>Accuracy</h5>
+
+            <h2 class="text-warning">98%</h2>
+
+        </div>
+
+    </div>
+
+    <!-- Farms -->
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card p-4">
+
+            <h5>My Farms</h5>
+
+            <h2 class="text-primary">04</h2>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ==================================================
+                Crop Prediction Card
+================================================== -->
+
+<div id="predictCrop" class="card p-4 mt-4">
+
+    <h3 class="mb-4">
+        🌾 Crop Yield Prediction
+    </h3>
+
+    <div class="row">
+
+        <!-- Crop Name -->
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Crop Name</label>
+          <select id="crop" class="form-control">
+    <option value="">Select Crop</option>
+    <option value="Rice">Rice</option>
+    <option value="Wheat">Wheat</option>
+    <option value="Maize">Maize</option>
+    <option value="Cotton">Cotton</option>
+    <option value="Sugarcane">Sugarcane</option>
+</select>
+
+        <!-- Soil Type -->
+        <select id="soil" class="form-control">
+    <option value="">Select Soil Type</option>
+    <option value="Loamy">Loamy</option>
+    <option value="Clay">Clay</option>
+    <option value="Sandy">Sandy</option>
+    <option value="Black">Black</option>
+    <option value="Red">Red</option>
+</select>
+
+        <!-- Rainfall -->
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Rainfall (mm)</label>
+            <input
+                type="number"
+                id="rainfall"
+                class="form-control"
+                placeholder="Enter Rainfall">
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- Temperature -->
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Temperature (°C)</label>
+            <input
+                type="number"
+                id="temperature"
+                class="form-control"
+                placeholder="Enter Temperature">
+        </div>
+
+        <!-- Area -->
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Area (Hectares)</label>
+            <input
+                type="number"
+                id="area"
+                class="form-control"
+                placeholder="Enter Area">
+        </div>
+
+        <!-- Predict Button -->
+        <div class="col-md-4 d-flex align-items-end">
+
+            <button
+                class="btn btn-success w-100"
+                id="predictBtn">
+
+                Predict Yield
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ==================================================
+                Recent Prediction Histor
+================================================== -->
+
+<div class="card p-4 mt-5">
+
+    <h3 class="mb-4">
+        📋 Recent Predictions
+    </h3>
+
+    <div class="table-responsive">
+
+        <table class="table table-dark table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+                    <th>Crop</th>
+                    <th>Yield</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="predictionTable">
+
+</tbody>
+</table>
+</div>
+                    
+<!-- ==================================================
+                Farmer Profile Card
+================================================== -->
+
+<div class="card p-4 mt-5">
+
+    <h3 class="mb-4">👤 Farmer Profile</h3>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Farmer Name</label>
+            <input type="text" id="farmerName" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" id="farmerEmail" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label class="form-label">State</label>
+            <input type="text" id="state" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label class="form-label">District</label>
+            <input type="text" id="district" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Village</label>
+            <input type="text" id="village" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text" id="phone" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Land Area (Hectare)</label>
+            <input type="number" id="landArea" class="form-control" readonly>
+        </div>
+
+    </div>
+
+    <button class="btn btn-primary" id="editProfileBtn">
+        ✏️ Edit Profile
+    </button>
+
+</div>
+
+
+</div>
+<script>
+
+document.getElementById("logoutBtn").addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    alert("Logout Successfully!");
+
+    window.location.href = "login.html";
+
+});
+
+</script>
+<script>
+
+const API_URL = "http://127.0.0.1:8000";
+
+document.getElementById("predictBtn").addEventListener("click", async function () {
+
+    const token = localStorage.getItem("token");
+
+    const data = {
+
+        crop: document.getElementById("crop").value,
+        season: "Kharif",
+        state: "Punjab",
+        area: Number(document.getElementById("area").value),
+        rainfall: Number(document.getElementById("rainfall").value),
+        fertilizer: 40,
+        pesticide: 20,
+        temperature: Number(document.getElementById("temperature").value)
+
+    };
+
+    try {
+
+        const response = await fetch(API_URL + "/predict", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+
+            body: JSON.stringify(data)
+
+        });
+
+        const result = await response.json();
+
+        if(response.ok){
+
+            alert(
+                "Predicted Yield: " +
+                result.predicted_yield +
+                "\n\nRecommendation:\n" +
+                result.recommendation
+            );
+
+        }
+
+        else{
+
+            alert(result.detail);
+
+        }
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert("Cannot connect to FastAPI Server");
+
+    }
+
+});
+document.getElementById("editProfileBtn").addEventListener("click", async function () {
+
+
+    const name = document.getElementById("farmerName");
+    const email = document.getElementById("farmerEmail");
+    const state = document.getElementById("state");
+    const district = document.getElementById("district");
+    const village = document.getElementById("village");
+    const phone = document.getElementById("phone");
+    const land = document.getElementById("landArea");
+
+    if (name.hasAttribute("readonly")) {
+
+        name.removeAttribute("readonly");
+        email.removeAttribute("readonly");
+        state.removeAttribute("readonly");
+        district.removeAttribute("readonly");
+        village.removeAttribute("readonly");
+        phone.removeAttribute("readonly");
+        land.removeAttribute("readonly");
+
+        this.innerHTML = "💾 Save Profile";
+        this.classList.remove("btn-primary");
+        this.classList.add("btn-success");
+
+    } else {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const response = await fetch(API_URL + "/farmer/profile/update", {
+
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+
+                body: JSON.stringify({
+                    full_name: name.value,
+                    phone: phone.value,
+                    state: state.value,
+                    district: district.value,
+                    village: village.value,
+                    land_area: Number(land.value)
+                })
+
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+
+                alert(result.message);
+
+                name.setAttribute("readonly", true);
+                email.setAttribute("readonly", true);
+                state.setAttribute("readonly", true);
+                district.setAttribute("readonly", true);
+                village.setAttribute("readonly", true);
+                phone.setAttribute("readonly", true);
+                land.setAttribute("readonly", true);
+
+                this.innerHTML = "✏️ Edit Profile";
+                this.classList.remove("btn-success");
+                this.classList.add("btn-primary");
+
+                loadProfile();
+
+            } else {
+
+                alert(result.detail);
+
+            }
+
+        } catch (error) {
+
+            console.log(error);
+            alert("Cannot connect to FastAPI Server");
+
+        }
+
+    }
+
+});
+    async function loadPredictionHistory() {
+
+    const token = localStorage.getItem("token");
+
+    try {
+
+        const response = await fetch(API_URL + "/my-predictions", {
+
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+
+        });
+
+        const data = await response.json();
+
+        const table = document.getElementById("predictionTable");
+
+        table.innerHTML = "";
+
+        data.forEach(item => {
+
+            table.innerHTML += `
+            <tr>
+                <td>${new Date(item.created_at).toLocaleDateString()}</td>
+                <td>${item.crop}</td>
+                <td>${item.predicted_yield} Ton/Ha</td>
+                <td>
+                    <span class="badge bg-success">
+                        ${item.prediction_status}
+                    </span>
+                </td>
+            </tr>
+            `;
+
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+}
+async function loadProfile() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const response = await fetch(API_URL + "/farmer/profile", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+
+            document.getElementById("farmerName").value = data.full_name;
+            document.getElementById("farmerEmail").value = data.email;
+            document.getElementById("state").value = data.state;
+            document.getElementById("district").value = data.district;
+            document.getElementById("village").value = data.village;
+            document.getElementById("phone").value = data.phone;
+            document.getElementById("landArea").value = data.land_area;
+
+        } else {
+
+            alert(data.detail);
+
+        }
+
+    } catch (error) {
+
+        console.log(error);
+        alert("Cannot connect to FastAPI Server");
+
+    }
+
+}
+loadProfile();
+loadPredictionHistory();
+</script>
+</body>
+</html>

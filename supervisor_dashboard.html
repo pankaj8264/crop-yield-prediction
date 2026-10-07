@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Supervisor Dashboard | Crop AI</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        /* ==============================
+           Page
+        ============================== */
+
+        body {
+            margin: 0;
+            background: #f1f5f9;
+            font-family: Arial, sans-serif;
+        }
+
+        /* ==============================
+           Sidebar
+        ============================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: #0f172a;
+            padding: 30px 20px;
+        }
+
+        .sidebar h2 {
+            color: white;
+        }
+
+        .sidebar .nav-link {
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .sidebar .nav-link:hover {
+            background: #1e293b;
+        }
+
+        /* ==============================
+           Main Content
+        ============================== */
+
+        .main {
+            margin-left: 260px;
+            padding: 40px;
+        }
+
+        /* ==============================
+           Cards
+        ============================== */
+
+        .dashboard-card {
+            border: none;
+            border-radius: 15px;
+            padding: 25px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<!-- ==================================================
+                SIDEBAR
+================================================== -->
+
+<div class="sidebar">
+
+    <!-- Project Logo -->
+    <h2 class="text-center mb-5">
+        🌾 Crop AI
+    </h2>
+
+    <!-- Supervisor Navigation -->
+    <ul class="nav flex-column">
+
+        <!-- Dashboard -->
+        <li class="nav-item mb-2">
+            <a href="#dashboard" class="nav-link text-light">
+                <i class="bi bi-speedometer2"></i>
+                Dashboard
+            </a>
+            
+        </li>
+
+        <!-- Farmers -->
+        <li class="nav-item mb-2">
+            <a href="#farmers" class="nav-link text-light">
+                <i class="bi bi-people"></i>
+                Manage Farmers
+            </a>
+        </li>
+
+        <!-- Supervisors -->
+        <li class="nav-item mb-2">
+            <a href="#supervisors" class="nav-link text-light">
+                <i class="bi bi-person-badge"></i>
+                Supervisors
+            </a>
+        </li>
+
+        <!-- Predictions -->
+        <li class="nav-item mb-2">
+            <a href="#predictions" class="nav-link text-light">
+                <i class="bi bi-graph-up-arrow"></i>
+                Predictions
+            </a>
+        </li>
+
+        <!-- Reports -->
+        <li class="nav-item mb-2">
+            <a href="#reports" class="nav-link text-light">
+                <i class="bi bi-file-earmark-text"></i>
+                Reports
+            </a>
+        </li>
+
+        <!-- Analytics -->
+        <li class="nav-item mb-2">
+            <a href="#analytics" class="nav-link text-light">
+                <i class="bi bi-bar-chart"></i>
+                Analytics
+            </a>
+        </li>
+
+        <!-- System Logs -->
+        <li class="nav-item mb-2">
+            <a href="#logs" class="nav-link text-light">
+                <i class="bi bi-journal-text"></i>
+                System Logs
+            </a>
+        </li>
+
+        <!-- Profile -->
+        <li class="nav-item mb-2">
+            <a href="#profile" class="nav-link text-light">
+                <i class="bi bi-person-circle"></i>
+                Profile
+            </a>
+        </li>
+
+        <!-- ML Model -->
+        <li class="nav-item mb-2">
+            <a href="#model" class="nav-link text-light">
+                <i class="bi bi-cpu"></i>
+                ML Model
+            </a>
+        </li>
+
+        <!-- Dataset -->
+        <li class="nav-item mb-2">
+            <a href="#dataset" class="nav-link text-light">
+                <i class="bi bi-cloud-upload"></i>
+                Upload Dataset
+            </a>
+        </li>
+
+        <!-- Logout -->
+        <li class="nav-item mt-4">
+            <a href="#" id="logoutBtn" class="nav-link text-danger">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+
+<!-- ==================================================
+                MAIN CONTENT
+================================================== -->
+
+<div class="main">
+
+    <!-- Dashboard -->
+    <section id="dashboard">
+
+        <h2 class="mb-2">
+            Welcome Supervisor 👋
+        </h2>
+
+        <p class="text-secondary mb-4">
+            Crop Yield Prediction System - Supervisor Panel
+        </p>
+
+        <!-- Statistics -->
+        <div class="row">
+
+            <div class="col-md-3 mb-4">
+                <div class="card dashboard-card shadow-sm">
+                    <h6>Total Farmers</h6>
+                    <h2 id="totalFarmers">0</h2>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card dashboard-card shadow-sm">
+                    <h6>Total Supervisors</h6>
+                    <h2 id="totalSupervisors">0</h2>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card dashboard-card shadow-sm">
+                    <h6>Total Predictions</h6>
+                    <h2 id="totalPredictions">0</h2>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card dashboard-card shadow-sm">
+                    <h6>Total Reports</h6>
+                    <h2 id="totalReports">0</h2>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+<!-- ==================================================
+                MANAGE FARMERS
+================================================== -->
+
+<section id="farmers" class="mt-5">
+
+    <h3>👨‍🌾 Manage Farmers</h3>
+
+    <div class="card p-4 mt-3 shadow-sm">
+
+        <!-- Loading Message -->
+        <p id="farmersLoading" class="text-secondary">
+            Loading farmers...
+        </p>
+
+        <!-- Farmers Table -->
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="farmersTableBody">
+
+                    <!-- Farmers will come from PostgreSQL -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Error Message -->
+        <p id="farmersError" class="text-danger"></p>
+
+    </div>
+
+</section>
+
+    <!-- Predictions -->
+         <!-- ==================================================
+                All Predictions
+================================================== -->
+
+<section id="predictions" class="mt-5">
+
+    <h3>📊 All Predictions</h3>
+
+    <div class="card p-4 mt-3">
+
+        <div id="predictionsLoading" class="text-secondary">
+            Loading predictions...
+        </div>
+
+        <div id="predictionsError" class="text-danger mb-3"></div>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Crop</th>
+                        <th>Predicted Yield</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody id="predictionsTableBody">
+                    <!-- Predictions will load here -->
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+  <!-- Reports -->
+    <!-- ==================================================
+                Reports
+================================================== -->
+
+<section id="reports" class="mt-5">
+
+    <h3>📄 Reports</h3>
+
+    <div class="card p-4 mt-3 shadow-sm">
+
+        <div id="reportsLoading" class="text-secondary">
+            Loading reports...
+        </div>
+
+        <div id="reportsError" class="text-danger mb-3"></div>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Farmer ID</th>
+                        <th>Report</th>
+                        <th>Date</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="reportsTableBody">
+                    <!-- Reports will load here -->
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+    <!-- Analytics -->
+   <!-- ==================================================
+                Analytics
+================================================== -->
+
+<section id="analytics" class="mt-5">
+
+    <h3>📈 Analytics</h3>
+
+    <div class="row mt-3">
+
+        <!-- Total Predictions -->
+        <div class="col-md-3 mb-4">
+            <div class="card p-4 shadow-sm">
+                <h6>Total Predictions</h6>
+                <h2 id="analyticsPredictions">0</h2>
+            </div>
+        </div>
+
+        <!-- Total Reports -->
+        <div class="col-md-3 mb-4">
+            <div class="card p-4 shadow-sm">
+                <h6>Total Reports</h6>
+                <h2 id="analyticsReports">0</h2>
+            </div>
+        </div>
+
+        <!-- Most Predicted Crop -->
+        <div class="col-md-3 mb-4">
+            <div class="card p-4 shadow-sm">
+                <h6>Most Predicted Crop</h6>
+                <h2 id="analyticsCrop">-</h2>
+            </div>
+        </div>
+
+        <!-- Average Yield -->
+        <div class="col-md-3 mb-4">
+            <div class="card p-4 shadow-sm">
+                <h6>Average Yield</h6>
+                <h2 id="analyticsYield">0</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="analyticsLoading" class="text-secondary">
+        Loading analytics...
+    </div>
+
+    <div id="analyticsError" class="text-danger"></div>
+
+</section>
+
+    <!-- System Logs -->
+    <section id="logs" class="mt-5">
+
+    <h3>📝 System Logs</h3>
+
+    <div class="card p-4 mt-3 shadow-sm">
+
+        <div id="logsLoading" class="text-secondary">
+            Loading system logs...
+        </div>
+
+        <div id="logsError" class="text-danger mb-3"></div>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Action</th>
+                        <th>Details</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody id="logsTableBody">
+                    <!-- Logs will load here -->
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+    <!-- Profile -->
+    <section id="profile" class="mt-5">
+
+        <h3>👤 Supervisor Profile</h3>
+
+        <div class="card p-4 mt-3">
+            <p class="text-secondary">
+            <div id="supervisorProfile">
+            <p>Loading profile...</p>
+        </div>
+
+    </section>
+
+
+    <!-- ML Model -->
+    <section id="model" class="mt-5">
+
+        <h3>🤖 ML Model Monitoring</h3>
+
+        <div class="card p-4 mt-3">
+            <p class="text-secondary">
+                <div id="modelMonitoring">
+    <p>Loading model information...</p>
+    </div>
+
+    </section>
+
+
+    <!-- Dataset -->
+     <section id="dataset" class="mt-5">
+
+    <h3>☁️ Upload Dataset</h3>
+
+    <div class="card p-4 mt-3">
+
+        <input
+            type="file"
+            class="form-control mb-3"
+            id="datasetFile"
+            accept=".csv">
+
+        <button
+            type="button"
+            id="uploadDatasetBtn"
+            class="btn btn-success">
+
+            Upload Dataset
+
+        </button>
+
+        <div id="uploadMessage" class="mt-3"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+                JAVASCRIPT
+================================================== -->
+
+<script>
+
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", function(e) {
+
+        e.preventDefault();
+
+        localStorage.removeItem("token");
+
+        window.location.href = "login.html";
+
+    });
+    // ==================================================
+    // All Predictions
+    // ==================================================
+
+    async function loadPredictions() {
+
+        const token = localStorage.getItem("token");
+
+        const tableBody = document.getElementById("predictionsTableBody");
+        const loading = document.getElementById("predictionsLoading");
+        const errorMessage = document.getElementById("predictionsError");
+
+        try {
+
+            const response = await fetch(
+                "http://127.0.0.1:8000/predictions/history/all",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Unable to load predictions");
+            }
+
+            const predictions = await response.json();
+
+            loading.style.display = "none";
+            tableBody.innerHTML = "";
+
+            if (predictions.length === 0) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            No predictions found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            predictions.forEach(prediction => {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${prediction.id}</td>
+                    <td>${prediction.crop || "N/A"}</td>
+                    <td>${prediction.predicted_yield || "N/A"}</td>
+                    <td>${prediction.created_at || "N/A"}</td>
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            loading.style.display = "none";
+
+            errorMessage.textContent =
+                "Unable to load predictions.";
+
+        }
+
+    }
+
+    loadPredictions();
+    // ==================================================
+// Manage Farmers
+// Load farmers from PostgreSQL
+// ==================================================
+
+async function loadFarmers() {
+
+    const token = localStorage.getItem("token");
+
+    const tableBody = document.getElementById("farmersTableBody");
+    const loading = document.getElementById("farmersLoading");
+    const errorMessage = document.getElementById("farmersError");
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/supervisor/farmers",
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load farmers. Status: " + response.status
+            );
+
+        }
+
+        const farmers = await response.json();
+
+        loading.style.display = "none";
+
+        tableBody.innerHTML = "";
+
+        // No farmers
+        if (farmers.length === 0) {
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">
+                        No farmers found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        // Display farmers
+        farmers.forEach(farmer => {
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${farmer.id}</td>
+
+                <td>${farmer.username || "N/A"}</td>
+
+                <td>${farmer.email || "N/A"}</td>
+
+                <td>
+
+                    <button
+                        class="btn btn-danger btn-sm"
+                        onclick="deleteFarmer(${farmer.id})">
+
+                        <i class="bi bi-trash"></i>
+                        Delete
+
+                    </button>
+
+                </td>
+            `;
+
+            tableBody.appendChild(row);
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        loading.style.display = "none";
+
+        errorMessage.textContent =
+            "Unable to load farmers.";
+
+    }
+
+}
+
+
+// ==================================================
+// Delete Farmer
+// ==================================================
+
+async function deleteFarmer(farmerId) {
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this farmer?"
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    try {
+
+        const response = await fetch(
+            `http://127.0.0.1:8000/supervisor/farmers/${farmerId}`,
+            {
+                method: "DELETE",
+
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                result.detail || "Unable to delete farmer."
+            );
+
+            return;
+        }
+
+        alert(result.message || "Farmer deleted successfully.");
+
+        // Reload farmers after deletion
+        loadFarmers();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Cannot connect to FastAPI server.");
+
+    }
+
+}
+
+
+// ==================================================
+// Load Farmers When Page Opens
+// ==================================================
+
+loadFarmers();
+// ==================================================
+// Supervisor Analytics
+// Load analytics from PostgreSQL
+// ==================================================
+
+async function loadAnalytics() {
+
+    const token = localStorage.getItem("token");
+
+    const loading = document.getElementById("analyticsLoading");
+    const errorMessage = document.getElementById("analyticsError");
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/supervisor/analytics",
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load analytics. Status: " + response.status
+            );
+
+        }
+
+        const data = await response.json();
+
+        // Display analytics
+        document.getElementById("analyticsPredictions").textContent =
+            data.total_predictions;
+
+        document.getElementById("analyticsReports").textContent =
+            data.total_reports;
+
+        document.getElementById("analyticsCrop").textContent =
+            data.most_predicted_crop || "N/A";
+
+        document.getElementById("analyticsYield").textContent =
+            data.average_yield;
+
+        loading.style.display = "none";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        loading.style.display = "none";
+
+        errorMessage.textContent =
+            "Unable to load analytics.";
+
+    }
+
+}
+
+
+// Load analytics when page opens
+loadAnalytics();
+// ==================================================
+// Reports
+// Load reports from PostgreSQL
+// ==================================================
+
+async function loadReports() {
+
+    const token = localStorage.getItem("token");
+
+    const tableBody = document.getElementById("reportsTableBody");
+    const loading = document.getElementById("reportsLoading");
+    const errorMessage = document.getElementById("reportsError");
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/reports",
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load reports. Status: " + response.status
+            );
+
+        }
+
+        const reports = await response.json();
+
+        loading.style.display = "none";
+
+        tableBody.innerHTML = "";
+
+        if (reports.length === 0) {
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">
+                        No reports found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        reports.forEach(report => {
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${report.id}</td>
+                <td>${report.user_id || "N/A"}</td>
+                <td>${report.report_title || "N/A"}</td>
+                <td>${report.created_at || "N/A"}</td>
+            `;
+
+            tableBody.appendChild(row);
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        loading.style.display = "none";
+
+        errorMessage.textContent =
+            "Unable to load reports.";
+
+    }
+
+}
+
+loadReports();
+// ==================================================
+// System Logs
+// ==================================================
+
+async function loadSystemLogs() {
+
+    const token = localStorage.getItem("token");
+
+    const logsSection = document.querySelector("#logs .card");
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/supervisor/logs",
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to load system logs");
+        }
+
+        const logs = await response.json();
+
+        if (logs.length === 0) {
+
+            logsSection.innerHTML = `
+                <p class="text-secondary">
+                    No system logs found.
+                </p>
+            `;
+
+            return;
+        }
+
+        logsSection.innerHTML = `
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>User ID</th>
+                            <th>Action</th>
+                            <th>Details</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        ${logs.map(log => `
+                            <tr>
+                                <td>${log.id}</td>
+                                <td>${log.user_id}</td>
+                                <td>${log.action}</td>
+                                <td>${log.details}</td>
+                                <td>${log.created_at}</td>
+                            </tr>
+                        `).join("")}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        logsSection.innerHTML = `
+            <p class="text-danger">
+                Unable to load system logs.
+            </p>
+        `;
+    }
+}
+
+// Load logs when dashboard opens
+loadSystemLogs();
+// ==================================================
+// System Logs
+// ==================================================
+
+async function loadSystemLogs() {
+
+    const token = localStorage.getItem("token");
+
+    const tableBody = document.getElementById("logsTableBody");
+    const loading = document.getElementById("logsLoading");
+    const errorMessage = document.getElementById("logsError");
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/supervisor/logs",
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "Unable to load logs. Status: " + response.status
+            );
+        }
+
+        const logs = await response.json();
+
+        loading.style.display = "none";
+        tableBody.innerHTML = "";
+
+        if (logs.length === 0) {
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center">
+                        No system logs found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        logs.forEach(log => {
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${log.id}</td>
+                <td>${log.user_id}</td>
+                <td>${log.action}</td>
+                <td>${log.details}</td>
+                <td>${log.created_at}</td>
+            `;
+
+            tableBody.appendChild(row);
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        loading.style.display = "none";
+
+        errorMessage.textContent =
+            "Unable to load system logs.";
+
+    }
+}
+
+// Load logs when dashboard opens
+loadSystemLogs();
+async function loadSupervisorProfile() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/supervisor/profile",
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to load supervisor profile");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("supervisorProfile").innerHTML = `
+            <div class="row">
+
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> ${data.full_name}</p>
+                    <p><strong>Username:</strong> ${data.username}</p>
+                    <p><strong>Email:</strong> ${data.email}</p>
+                </div>
+
+                <div class="col-md-6">
+                    <p><strong>Phone:</strong> ${data.phone}</p>
+                    <p><strong>Role:</strong> ${data.role}</p>
+                    <p><strong>Location:</strong> ${data.district}, ${data.state}</p>
+                </div>
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("supervisorProfile").innerHTML =
+            `<p class="text-danger">Unable to load supervisor profile.</p>`;
+
+    }
+}
+
+loadSupervisorProfile();
+
+async function loadModelMonitoring() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/supervisor/model-status",
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to load model status");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("modelMonitoring").innerHTML = `
+            <div class="row">
+
+                <div class="col-md-6">
+                    <p><strong>Model Status:</strong>
+                        <span class="text-success">
+                            ${data.model_status} ✅
+                        </span>
+                    </p>
+
+                    <p><strong>Model File:</strong>
+                        ${data.model_file}
+                    </p>
+
+                    <p><strong>Scaler:</strong>
+                        ${data.scaler_file}
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <p><strong>Prediction API:</strong>
+                        <span class="text-success">
+                            ${data.prediction_api} ✅
+                        </span>
+                    </p>
+
+                    <p><strong>Prediction Method:</strong>
+                        ${data.prediction_method}
+                    </p>
+                </div>
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("modelMonitoring").innerHTML =
+            `<p class="text-danger">
+                Unable to load ML model information.
+            </p>`;
+    }
+}
+
+loadModelMonitoring();
+// ==================================================
+// Upload Dataset
+// ==================================================
+
+document.getElementById("uploadDatasetBtn").addEventListener("click", async function () {
+
+    const fileInput = document.getElementById("datasetFile");
+    const message = document.getElementById("uploadMessage");
+    const token = localStorage.getItem("token");
+
+    // Check file
+    if (!fileInput.files.length) {
+
+        message.innerHTML =
+            `<span class="text-danger">Please select a CSV file first.</span>`;
+
+        return;
+    }
+
+    // Check token
+    if (!token) {
+
+        message.innerHTML =
+            `<span class="text-danger">Please login as Supervisor first.</span>`;
+
+        return;
+    }
+
+    const file = fileInput.files[0];
+
+    // FormData
+    const formData = new FormData();
+
+    // IMPORTANT: backend expects "file"
+    formData.append("file", file);
+
+    try {
+
+        message.innerHTML =
+            `<span class="text-primary">Uploading dataset...</span>`;
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/supervisor/upload-dataset",
+            {
+                method: "POST",
+
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+
+                body: formData
+            }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+
+            message.innerHTML =
+                `<span class="text-success">
+                    ✅ Dataset uploaded successfully
+                </span>`;
+
+            console.log("Upload response:", data);
+
+        } else {
+
+            message.innerHTML =
+                `<span class="text-danger">
+                    ❌ ${data.detail || "Dataset upload failed"}
+                </span>`;
+
+            console.error("Upload error:", data);
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.innerHTML =
+            `<span class="text-danger">
+                ❌ Cannot connect to FastAPI server.
+            </span>`;
+    }
+
+});
+// ==================================================
+// UPDATE DASHBOARD COUNTERS
+// ==================================================
+
+async function updateDashboardCounters() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        return;
+    }
+
+    const headers = {
+        "Authorization": "Bearer " + token
+    };
+
+    try {
+
+        // Farmers
+        const farmersResponse = await fetch(
+            "http://127.0.0.1:8000/supervisor/farmers",
+            { headers }
+        );
+
+        if (farmersResponse.ok) {
+
+            const farmers = await farmersResponse.json();
+
+            document.getElementById("totalFarmers").textContent =
+                Array.isArray(farmers) ? farmers.length : 0;
+        }
+
+
+        // Predictions
+        const predictionsResponse = await fetch(
+            "http://127.0.0.1:8000/predictions/history/all",
+            { headers }
+        );
+
+        if (predictionsResponse.ok) {
+
+            const predictions = await predictionsResponse.json();
+
+            document.getElementById("totalPredictions").textContent =
+                Array.isArray(predictions) ? predictions.length : 0;
+        }
+
+
+        // Reports
+        const reportsResponse = await fetch(
+            "http://127.0.0.1:8000/reports",
+            { headers }
+        );
+
+        if (reportsResponse.ok) {
+
+            const reports = await reportsResponse.json();
+
+            document.getElementById("totalReports").textContent =
+                Array.isArray(reports) ? reports.length : 0;
+        }
+
+
+        // Supervisor
+        document.getElementById("totalSupervisors").textContent = "1";
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard counter error:",
+            error
+        );
+
+    }
+}
+
+
+// Load counters
+updateDashboardCounters();
+   
+</script>
+
+</body>
+</html>
